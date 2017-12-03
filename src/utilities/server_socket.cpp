@@ -5,6 +5,7 @@
 
 namespace mde { namespace ftp_utilities {
 
+    // TODO move general server socket functions to Server, so it is not double implemented by Server and Client Class
     //Constructor function to create a socket.
     ServerSocket::ServerSocket() {
         if (!Socket::create()) {

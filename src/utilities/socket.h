@@ -17,6 +17,8 @@ namespace mde { namespace ftp_utilities {
 #define BACKLOG 20
 #define MAXRECV	2048
 
+    // TODO Make interface for Socket
+    // TODO Implement different Sockets for Win/Linux
     class Socket {
     private:
         int _sockfd;

@@ -1,5 +1,7 @@
 #include "ftp_server.h"
 
+// TODO Remove std::couts, this is not suitable for a library
+
 using namespace ::mde::ftp_utilities;
 
 namespace mde {
@@ -25,6 +27,7 @@ namespace mde {
             ServerSocket control_socket(port);
             ServerSocket* server_socket = new ServerSocket();
             // wait for request from client
+            // TODO Manage multiple client connections, via max setting/single only/etc
             while (1) {
                 try {
                     control_socket.accept(*server_socket);
