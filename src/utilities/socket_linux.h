@@ -5,6 +5,8 @@
 
 #include <cstdio>
 #include <cstring>
+#include <cstdint>
+
 #include <iostream>
 #include <string>
 #include <sys/types.h>
@@ -18,16 +20,14 @@
 
 namespace mde { namespace ftp_utilities {
 
-#define BACKLOG 20
-#define MAXRECV	2048
-
-    // TODO Make interface for Socket
     // TODO Implement different Sockets for Win/Linux
     class SocketLinux : public ISocket {
     private:
         int _sockfd;
         struct sockaddr_in _addr;
         bool is_valid();
+
+        static const uint32_t kMaxBufferSize = 2048;
 
     public:
         SocketLinux();
@@ -44,6 +44,7 @@ namespace mde { namespace ftp_utilities {
         void fd(int);
         int port();
         std::string host();
+        uint32_t getMaxBufferSize();
     };
 
 } // namespace ftp_utilities

@@ -76,5 +76,9 @@ namespace mde { namespace ftp_utilities {
         }
     }
 
+    uint32_t ServerSocket::getMaxBufferSize() {
+        return socket_->getMaxBufferSize();
+    }
+
 } // namespace ftp_utilities
 } // namespace mde

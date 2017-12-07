@@ -2,6 +2,8 @@
 
 #include "socket_linux.h"
 
+#define BACKLOG 20
+
 namespace mde { namespace ftp_utilities {
 
     //Constructor function which intializes _addr to 0 and sets _sockfd to -1
@@ -142,8 +144,8 @@ namespace mde { namespace ftp_utilities {
             return -1;
         }
 
-        char buffer[MAXRECV + 5];
-        int status = ::recv(_sockfd, buffer, MAXRECV, 0);
+        char buffer[kMaxBufferSize + 5];
+        int status =::recv(_sockfd, buffer, kMaxBufferSize, 0);
 
         if (status > 0) {
             s.assign(buffer, status);
@@ -163,6 +165,10 @@ namespace mde { namespace ftp_utilities {
         }
 
         return true;
+    }
+
+    uint32_t SocketLinux::getMaxBufferSize() {
+        return kMaxBufferSize;
     }
 
 } // namespace ftp_utilities

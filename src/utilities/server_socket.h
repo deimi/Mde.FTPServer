@@ -1,13 +1,12 @@
 #ifndef MDE_SERVERSOCKET_CLASS
 #define MDE_SERVERSOCKET_CLASS
 
+#include <cstdint>
+
 #include <memory>
 
 #include "i_socket.h"
 #include "socket_exception.h"
-
-// TODO Replace MAXRECV from under layer with function call
-#include "socket_linux.h"
 
 namespace mde { namespace ftp_utilities {
 
@@ -23,6 +22,7 @@ namespace mde { namespace ftp_utilities {
         int fd();
         int port();
         std::string host();
+        uint32_t getMaxBufferSize();
 
     private:
         std::shared_ptr<ISocket> socket_;

@@ -1,6 +1,8 @@
 #ifndef MDE_I_SOCKET_CLASS
 #define MDE_I_SOCKET_CLASS
 
+#include <cstdint>
+
 #include <string>
 
 namespace mde { namespace ftp_utilities {
@@ -19,6 +21,7 @@ namespace mde { namespace ftp_utilities {
         virtual void fd(int) = 0;
         virtual int port() = 0;
         virtual std::string host() = 0;
+        virtual uint32_t getMaxBufferSize() = 0;
     };
     
 } // namespace ftp_utilities
