@@ -281,6 +281,7 @@ namespace mde {
                                     *server_socket << responseMsg;
                                     (*data_socket).accept(temp_socket);
                                     while (length > 0) {
+                                        // TODO Replace MAXRECV from under layer with function call
                                         int read_sz = MAXRECV < length ? MAXRECV : length;
                                         char buf[MAXRECV + 1];
                                         in.read(buf, read_sz);

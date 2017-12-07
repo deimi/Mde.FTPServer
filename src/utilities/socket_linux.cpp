@@ -1,40 +1,40 @@
-//  Socket class file which provides wrapper functions to socket functions. 
+// Linux socket class file which provides wrapper functions to socket functions. 
 
-#include "socket.h"
+#include "socket_linux.h"
 
 namespace mde { namespace ftp_utilities {
 
     //Constructor function which intializes _addr to 0 and sets _sockfd to -1
-    Socket::Socket() {
+    SocketLinux::SocketLinux() {
         memset(&_addr, 0, sizeof _addr);
         _sockfd = -1;
     }
 
     //Destructor function
-    Socket::~Socket() {
+    SocketLinux::~SocketLinux() {
         if (is_valid()) {
             close();
         }
     }
 
     //Checks for a valid _sockfd i.e != -1
-    bool Socket::is_valid() {
+    bool SocketLinux::is_valid() {
         return _sockfd != -1;
     }
 
     //Return the _sockfd
-    int Socket::fd() {
+    int SocketLinux::fd() {
         return _sockfd;
     }
 
-    int Socket::port() {
+    int SocketLinux::port() {
         struct sockaddr_in local_address;
         socklen_t address_length = sizeof(local_address);
         getsockname(_sockfd, (struct sockaddr*)&local_address, &address_length);
         return ntohs(local_address.sin_port);
     }
 
-    std::string Socket::host() {
+    std::string SocketLinux::host() {
         struct sockaddr_in local_address;
         socklen_t address_length = sizeof(local_address);
         getsockname(_sockfd, (struct sockaddr*)&local_address, &address_length);
@@ -42,12 +42,12 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Allows to set _sockfd
-    void Socket::fd(int _fd) {
+    void SocketLinux::fd(int _fd) {
         _sockfd = _fd;
     }
 
     //Wrapper function for socket(int domain, int type, int protocol);
-    bool Socket::create() {
+    bool SocketLinux::create() {
         _sockfd = socket(PF_INET, SOCK_STREAM, 0);
 
         if (!is_valid()) {
@@ -64,7 +64,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Wrapper function for bind(int sockfd, struct sockaddr *my_addr, socklen_t addrlen);
-    bool Socket::bind(int port) {
+    bool SocketLinux::bind(int port) {
         if (!is_valid()) {
             return false;
         }
@@ -81,7 +81,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Wrapper function for connect(int sockfd, const struct sockaddr *serv_addr,socklen_t addrlen);
-    bool Socket::connect(int ip, int port) {
+    bool SocketLinux::connect(int ip, int port) {
         if (!is_valid()) {
             return false;
         }
@@ -98,7 +98,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Wrapper function for listen(int s, int backlog);
-    bool Socket::listen() {
+    bool SocketLinux::listen() {
         if (!is_valid()) {
             return false;
         }
@@ -111,7 +111,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Wrapper function for accept(int s, struct sockaddr *addr, socklen_t *addrlen);
-    bool Socket::accept(Socket& child_socket) {
+    bool SocketLinux::accept(ISocket& child_socket) {
         if (!is_valid()) {
             return false;
         }
@@ -128,7 +128,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Wrapper function for send(int s, const void *buf, size_t len, int flags);
-    int Socket::send(std::string msg) {
+    int SocketLinux::send(std::string msg) {
         if (!is_valid()) {
             return -1;
         }
@@ -137,7 +137,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Wrapper function for recv(int s, void *buf, size_t len, int flags);
-    int Socket::recv(std::string& s) {
+    int SocketLinux::recv(std::string& s) {
         if (!is_valid()) {
             return -1;
         }
@@ -153,7 +153,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Wrapper function for close(int s);
-    bool Socket::close() {
+    bool SocketLinux::close() {
         if (!is_valid()) {
             return true;
         }
