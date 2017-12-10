@@ -71,7 +71,7 @@ namespace mde {
     // Send Response to Client and Get command from client.
     void FTPServer::communicate(ftp_utilities::ServerSocket* server_socket) {
         std::string data = "", responseMsg = "", cmd, args, user, pass;
-        ServerSocket* data_socket;
+        ServerSocket* data_socket = 0;
         LoginInfo login_list;
         bool logged_in = false, binary_mode = false;
         // communicating with client by sending hello message.
@@ -299,7 +299,7 @@ namespace mde {
                                     while (length > 0) {
                                         // TODO Replace MAXRECV from under layer with function call
                                         int read_sz = temp_socket.getMaxBufferSize() < length ? temp_socket.getMaxBufferSize() : length;
-                                        char buf[temp_socket.getMaxBufferSize() + 1];
+                                        char buf[2048 + 1];
                                         in.read(buf, read_sz);
                                         data.assign(buf, read_sz);
                                         temp_socket << data;
