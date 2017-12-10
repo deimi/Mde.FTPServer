@@ -11,7 +11,14 @@ int main()
 	std::cout << "FTP Server running. Press any key for stopping..." << std::endl;;
 	
     mde::FTPServer ftpServer(12345);
-    ftpServer.start();
+    try
+    {
+        ftpServer.start();
+    }
+    catch (...)
+    {
+        std::cout << "Unknown error occured" << std::endl;
+    }
 
 	std::cin.ignore();
 	std::cout << "FTP Server stopped" << std::endl;;

@@ -1,3 +1,6 @@
+#include <thread>
+#include <memory>
+
 #include "ftp_server.h"
 
 // TODO Remove std::couts, this is not suitable for a library
@@ -9,13 +12,18 @@ namespace mde {
     // Constructor function to create ftp server socket with port number given as argument.
     FTPServer::FTPServer(int port_number) {
         // TODO Rename all comments and string to new naming
-        std::cout << "FTP-Server Started\n";
+        std::cout << "FTP-Server main instance started\n";
         port = port_number;
+    }
+
+    FTPServer::FTPServer() {
+        port = -1;
+        std::cout << "FTP-Server instance created\n";
     }
 
     // Destructor function to ftp server socket.
     FTPServer::~FTPServer() {
-
+        std::cout << "ftp server destr" << std::endl;
     }
 
     // Start ftp server on default port and listen to requests form clients.
@@ -25,24 +33,23 @@ namespace mde {
         try {
             //Creates new socket which listens to requests from clients
             ServerSocket control_socket(port);
-            ServerSocket* server_socket = new ServerSocket();
             // wait for request from client
             // TODO Manage multiple client connections, via max setting/single only/etc
             while (1) {
                 try {
+                    std::cout << "testtest" << std::endl;
+                    ServerSocket* server_socket = new ServerSocket();
                     control_socket.accept(*server_socket);
-                    
-                    // TODO replace fork with OS independent function
-                    if (!fork()) {
-                        control_socket.close();
-                        communicate(server_socket);
-                        (*server_socket).close();
-                        exit(0);
+                    std::cout << "testtest2" << std::endl;
+
+                    std::thread* clientHandler = new std::thread(&FTPServer::clientHandler, new FTPServer(), server_socket);
+                    if (0 == clientHandler) {
+                        server_socket->close();
                     }
-                    (*server_socket).close();
                 }
                 catch (SocketException& e) {
                     std::cout << "Exception occurred : " << e.description() << std::endl;
+                    control_socket.close();
                     continue;
                 }
             }
@@ -52,16 +59,24 @@ namespace mde {
             std::cout << "Exception occurred : " << e.description() << std::endl;
             return;
         }
+        std::cout << "blabla" << std::endl;
+    }
+
+    void FTPServer::clientHandler(ftp_utilities::ServerSocket* aServerSocket) {
+        communicate(aServerSocket);
+        //aServerSocket->close();
+        std::cout << "client handler stopp" << std::endl;
     }
 
     // Send Response to Client and Get command from client.
-    void FTPServer::communicate(ServerSocket* server_socket) {
+    void FTPServer::communicate(ftp_utilities::ServerSocket* server_socket) {
         std::string data = "", responseMsg = "", cmd, args, user, pass;
         ServerSocket* data_socket;
         LoginInfo login_list;
         bool logged_in = false, binary_mode = false;
         // communicating with client by sending hello message.
         try {
+            // TODO Replace with configurable hello message
             responseMsg = FTPResponse("200", "(Mde.FTP v1.0)").formResponse();
             *server_socket << responseMsg;
         }
@@ -78,7 +93,7 @@ namespace mde {
                 *server_socket >> data;
                 // TODO implement all ftp commands (RMD, DELE,...)
                 if (parseCommand(data, cmd, args)) {
-                    std::cout << "Recieved Command : " << cmd << std::endl;
+                    std::cout << "Received Command : " << cmd << std::endl;
                     // get user command from client side.
                     // TODO change elseif to switch
                     if (cmd == "USER" && args.length() != 0) {
@@ -342,6 +357,9 @@ namespace mde {
             catch (SocketException& e) {
                 std::cout << "Exception occurred : " << e.description() << std::endl;
                 return;
+            }
+            catch (...) {
+                std::cout << "Unknown exception in communicate" << std::endl;
             }
         }
     }

@@ -37,10 +37,7 @@ namespace mde {
     private:
         int port;
 
-        void help();
-        void get(std::string);
-        void put(std::string);
-        void add();
+        FTPServer();
         int ls(std::string, std::string&, bool print = false);
         std::string syst(bool print = false);
         std::string pwd(bool print = false);
@@ -50,6 +47,7 @@ namespace mde {
         bool quit();
         int setRootDir(std::string, bool print = false);
         LoginInfo formLoginInfoList();
+        void clientHandler(ftp_utilities::ServerSocket*);
         void communicate(ftp_utilities::ServerSocket*);
     };
 
