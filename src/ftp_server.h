@@ -2,6 +2,8 @@
 #define MDE_FTP_SERVER_H
 
 // TODO Move includes to cpp files
+// TODO Cleanup all headers
+// TODO Sort all headers
 #include <cstdlib>
 #include <cctype>
 #include <cstring>
@@ -11,15 +13,8 @@
 #include <map>
 #include <sstream>
 #include <fstream>
-#include <unistd.h>
 #include <fcntl.h>
 // TODO Seperate Windows/Linux includes
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
 
 
 #include "utilities/server_socket.h"

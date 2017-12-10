@@ -3,18 +3,13 @@
 #ifndef MDE_SOCKET_LINUX_H
 #define MDE_SOCKET_LINUX_H
 
-#include <cstdio>
-#include <cstring>
-#include <cstdint>
+// compile only for linux
+#ifdef __linux__
 
-#include <iostream>
+#include <cstdint>
 #include <string>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
+
 #include <arpa/inet.h>
-#include <netinet/in.h>
-#include <unistd.h>
 
 #include "i_socket.h"
 
@@ -49,5 +44,7 @@ namespace mde { namespace ftp_utilities {
 
 } // namespace ftp_utilities
 } // namespace mde
+
+#endif // __linux__
 
 #endif // MDE_SOCKET_LINUX_H

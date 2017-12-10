@@ -1,5 +1,16 @@
 // Linux socket class file which provides wrapper functions to socket functions. 
 
+// compile only for linux
+#ifdef __linux__
+
+#include <cstring>
+
+#include <sys/types.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <unistd.h>
+
 #include "socket_linux.h"
 
 #define BACKLOG 20
@@ -173,3 +184,5 @@ namespace mde { namespace ftp_utilities {
 
 } // namespace ftp_utilities
 } // namespace mde
+
+#endif // __linux__ 

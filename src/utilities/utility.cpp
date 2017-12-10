@@ -1,5 +1,7 @@
 // Class of utitlity functions like  get Path name and file name from string 
 
+// Prevent unsecure windows warning
+#define _CRT_SECURE_NO_WARNINGS
 
 #include "utility.h"
 
@@ -32,25 +34,10 @@ namespace mde { namespace ftp_utilities {
 
     // This function checks whether string represent a valid number or not.
     bool is_number(std::string s) {
-        for (int i = 0; i < s.length(); i++)
+        for (uint32_t i = 0; i < s.length(); i++)
             if (!isdigit(s[i]))
                 return false;
         return true;
-    }
-
-    // This function return password given by user on console.
-    std::string getPassword() {
-        termios oldt;
-        tcgetattr(STDIN_FILENO, &oldt);
-        termios newt = oldt;
-        newt.c_lflag &= ~ECHO;
-        tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-        std::string pass;
-        getline(std::cin, pass);
-        getline(std::cin, pass);
-        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-        std::cout << std::endl;
-        return pass;
     }
 
     //	This function return FileName from the complete path of file.
@@ -70,13 +57,14 @@ namespace mde { namespace ftp_utilities {
 
     //	This Function executes system commands(pwd,cd,mkdir,popen) if they are valid otherwise return error.
     std::string exec_cmd(std::string cmd_type, std::string cmd, int& code) {
-
+        // TODO Implement commands for windwos
         FILE* in;
         char buff[2048];
         std::stringstream data;
         code = 0;
         // use system function getcwd to get current working directory.
         if (cmd_type == "pwd") {
+#ifdef __linux__
             if (getcwd(buff, sizeof(buff)) != NULL) {
                 code = 1;
                 data << "\"" << buff << "\"" << std::endl;
@@ -84,9 +72,11 @@ namespace mde { namespace ftp_utilities {
             else {
                 data << "\"Error : " << strerror(errno) << "\"" << std::endl;
             }
+#endif
         }
             // use system function chdir to change directory.
         else if (cmd_type == "cd") {
+#ifdef __linux__
             if (chdir(cmd.c_str()) == 0) {
                 code = 1;
                 data << "Succesfully changed to directory : " << cmd << "." << std::endl;
@@ -94,9 +84,11 @@ namespace mde { namespace ftp_utilities {
             else {
                 data << "Error : " << strerror(errno) << std::endl;
             }
+#endif
         }
             // use system function chroot to change chroot directory.
         else if (cmd_type == "chroot") {
+#ifdef __linux__
             if (chroot(cmd.c_str()) == 0) {
                 code = 1;
                 data << "Succesfully set the root directory : " << cmd << "." << std::endl;
@@ -104,9 +96,11 @@ namespace mde { namespace ftp_utilities {
             else {
                 data << "Error : " << strerror(errno) << std::endl;
             }
+#endif
         }
             // use system function mkdir to make new directory.
         else if (cmd_type == "mkdir") {
+#ifdef __linux__
             if (mkdir(cmd.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) {
                 code = 1;
                 data << "Succesfully created directory : \"" << cmd << "\"." << std::endl;
@@ -114,9 +108,11 @@ namespace mde { namespace ftp_utilities {
             else {
                 data << "Error : " << strerror(errno) << std::endl;
             }
+#endif
         }
             // use system function popen to get output of terminal commands.
         else {
+#ifdef __linux__
             if (!(in = popen(cmd.c_str(), "r"))) {
                 data << "Couldn't execute the command : " << cmd << std::endl;
             }
@@ -135,6 +131,7 @@ namespace mde { namespace ftp_utilities {
                 }
                 pclose(in);
             }
+#endif
         }
         // return result.
         return data.str();

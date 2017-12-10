@@ -157,6 +157,7 @@ namespace mde {
                                     ServerSocket temp_socket;
                                     (*data_socket).accept(temp_socket);
                                     while (pos < len) {
+                                        // TODO Replace 2048 with getMaxBuffer
                                         data = response.substr(pos, min(2048, len - pos));
                                         temp_socket << data;
                                         pos = pos + min(2048, len - pos);

@@ -1,15 +1,27 @@
 // Class file of Server Socket 
 
+// Prevent unsecure windows warning
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "server_socket.h"
 #include "utility.h"
+
+#ifdef __linux__
 #include "socket_linux.h"
+#elif _WIN32
+#include "socket_win.h"
+#endif
 
 namespace mde { namespace ftp_utilities {
 
     // TODO move general server socket functions to Server, so it is not double implemented by Server and Client Class
     //Constructor function to create a socket.
     ServerSocket::ServerSocket() {
+#ifdef __linux__
         socket_ = std::make_shared<SocketLinux>();
+#elif _WIN32
+        socket_ = std::make_shared<SocketWin>();
+#endif        
         if (false == socket_->create()) {
             throw SocketException(strerror(errno));
         }
