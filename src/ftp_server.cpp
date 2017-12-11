@@ -358,9 +358,9 @@ namespace mde {
                 std::cout << "Exception occurred : " << e.description() << std::endl;
                 return;
             }
-            catch (...) {
+        /*    catch (...) {
                 std::cout << "Unknown exception in communicate" << std::endl;
-            }
+            }*/
         }
     }
 

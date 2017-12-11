@@ -66,49 +66,57 @@ namespace mde { namespace ftp_utilities {
         if (cmd_type == "pwd") {
 #ifdef __linux__
             if (getcwd(buff, sizeof(buff)) != NULL) {
+#else
+            if (_getcwd(buff, sizeof(buff)) != NULL) {
+#endif
                 code = 1;
                 data << "\"" << buff << "\"" << std::endl;
             }
             else {
                 data << "\"Error : " << strerror(errno) << "\"" << std::endl;
-            }
-#endif
+            }            
         }
             // use system function chdir to change directory.
         else if (cmd_type == "cd") {
 #ifdef __linux__
             if (chdir(cmd.c_str()) == 0) {
+#else
+            if (_chdir(cmd.c_str()) == 0) {
+#endif
                 code = 1;
                 data << "Succesfully changed to directory : " << cmd << "." << std::endl;
             }
             else {
                 data << "Error : " << strerror(errno) << std::endl;
             }
-#endif
         }
             // use system function chroot to change chroot directory.
         else if (cmd_type == "chroot") {
 #ifdef __linux__
             if (chroot(cmd.c_str()) == 0) {
+#else
+            if (false) {
+#endif
                 code = 1;
                 data << "Succesfully set the root directory : " << cmd << "." << std::endl;
             }
             else {
                 data << "Error : " << strerror(errno) << std::endl;
             }
-#endif
         }
             // use system function mkdir to make new directory.
         else if (cmd_type == "mkdir") {
 #ifdef __linux__
             if (mkdir(cmd.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0) {
+#else
+            if (_mkdir(cmd.c_str()) == 0) {
+#endif
                 code = 1;
                 data << "Succesfully created directory : \"" << cmd << "\"." << std::endl;
             }
             else {
                 data << "Error : " << strerror(errno) << std::endl;
             }
-#endif
         }
             // use system function popen to get output of terminal commands.
         else {
@@ -130,6 +138,26 @@ namespace mde { namespace ftp_utilities {
                     data << buff;
                 }
                 pclose(in);
+            }
+#else
+            if (cmd_type == "ls") {
+                if (!(in = _popen("dir", "r"))) {
+                    data << "Couldn't execute the command : " << cmd << std::endl;
+                }
+                else {
+                    code = 1;
+
+                    std::string inString;
+                    char   psBuffer[128];
+                    while (NULL != fgets(psBuffer, 128, in))
+                    {
+                        inString.append(psBuffer);
+                    }
+
+                    data << inString;
+
+                    _pclose(in);
+                }
             }
 #endif
         }
