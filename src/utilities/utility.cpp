@@ -5,6 +5,8 @@
 
 #include "utility.h"
 
+#include "logging.h"
+
 namespace mde { namespace ftp_utilities {
 
     // This function checks whether string contain valid host address or not. 
@@ -70,10 +72,10 @@ namespace mde { namespace ftp_utilities {
             if (_getcwd(buff, sizeof(buff)) != NULL) {
 #endif
                 code = 1;
-                data << "\"" << buff << "\"" << std::endl;
+                data << "\"" << buff << "\"" << mde::endl;
             }
             else {
-                data << "\"Error : " << strerror(errno) << "\"" << std::endl;
+                data << "\"Error : " << strerror(errno) << "\"" << mde::endl;
             }            
         }
             // use system function chdir to change directory.
@@ -84,10 +86,10 @@ namespace mde { namespace ftp_utilities {
             if (_chdir(cmd.c_str()) == 0) {
 #endif
                 code = 1;
-                data << "Succesfully changed to directory : " << cmd << "." << std::endl;
+                data << "Succesfully changed to directory : " << cmd << "." << mde::endl;
             }
             else {
-                data << "Error : " << strerror(errno) << std::endl;
+                data << "Error : " << strerror(errno) << mde::endl;
             }
         }
             // use system function chroot to change chroot directory.
@@ -98,10 +100,10 @@ namespace mde { namespace ftp_utilities {
             if (false) {
 #endif
                 code = 1;
-                data << "Succesfully set the root directory : " << cmd << "." << std::endl;
+                data << "Succesfully set the root directory : " << cmd << "." << mde::endl;
             }
             else {
-                data << "Error : " << strerror(errno) << std::endl;
+                data << "Error : " << strerror(errno) << mde::endl;
             }
         }
             // use system function mkdir to make new directory.
@@ -112,17 +114,17 @@ namespace mde { namespace ftp_utilities {
             if (_mkdir(cmd.c_str()) == 0) {
 #endif
                 code = 1;
-                data << "Succesfully created directory : \"" << cmd << "\"." << std::endl;
+                data << "Succesfully created directory : \"" << cmd << "\"." << mde::endl;
             }
             else {
-                data << "Error : " << strerror(errno) << std::endl;
+                data << "Error : " << strerror(errno) << mde::endl;
             }
         }
             // use system function popen to get output of terminal commands.
         else {
 #ifdef __linux__
             if (!(in = popen(cmd.c_str(), "r"))) {
-                data << "Couldn't execute the command : " << cmd << std::endl;
+                data << "Couldn't execute the command : " << cmd << mde::endl;
             }
             else {
                 code = 1;
@@ -142,7 +144,7 @@ namespace mde { namespace ftp_utilities {
 #else
             if (cmd_type == "ls") {
                 if (!(in = _popen("dir", "r"))) {
-                    data << "Couldn't execute the command : " << cmd << std::endl;
+                    data << "Couldn't execute the command : " << cmd << mde::endl;
                 }
                 else {
                     code = 1;
@@ -205,7 +207,7 @@ namespace mde { namespace ftp_utilities {
                 if (command[beginPos] == '\"') {
                     endPos = command.find_first_of('\"', beginPos + 1);
                     if (endPos == std::string::npos) {
-                        std::cout << "Error : Missing \" at the end." << command.substr(beginPos) << std::endl;
+                        mde::log << "Error : Missing \" at the end." << command.substr(beginPos) << mde::endl;
                         return false;
                     }
                     args.push_back(command.substr(beginPos + 1, endPos - beginPos - 1));

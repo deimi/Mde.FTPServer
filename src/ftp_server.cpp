@@ -2,8 +2,7 @@
 #include <memory>
 
 #include "ftp_server.h"
-
-// TODO Remove std::couts, this is not suitable for a library
+#include "utilities/logging.h"
 
 using namespace ::mde::ftp_utilities;
 
@@ -12,23 +11,23 @@ namespace mde {
     // Constructor function to create ftp server socket with port number given as argument.
     FTPServer::FTPServer(int port_number) {
         // TODO Rename all comments and string to new naming
-        std::cout << "FTP-Server main instance started\n";
+        mde::log << "FTP-Server main instance started\n";
         port = port_number;
     }
 
     FTPServer::FTPServer() {
         port = -1;
-        std::cout << "FTP-Server instance created\n";
+        mde::log << "FTP-Server instance created\n";
     }
 
     // Destructor function to ftp server socket.
     FTPServer::~FTPServer() {
-        std::cout << "ftp server destr" << std::endl;
+        mde::log << "ftp server destr" << mde::endl;
     }
 
     // Start ftp server on default port and listen to requests form clients.
     void FTPServer::start() {
-        std::cout << "Starting server on port :" << port << std::endl;
+        mde::log << "Starting server on port :" << port << mde::endl;
 
         try {
             //Creates new socket which listens to requests from clients
@@ -37,10 +36,10 @@ namespace mde {
             // TODO Manage multiple client connections, via max setting/single only/etc
             while (1) {
                 try {
-                    std::cout << "testtest" << std::endl;
+                    mde::log << "testtest" << mde::endl;
                     ServerSocket* server_socket = new ServerSocket();
                     control_socket.accept(*server_socket);
-                    std::cout << "testtest2" << std::endl;
+                    mde::log << "testtest2" << mde::endl;
 
                     std::thread* clientHandler = new std::thread(&FTPServer::clientHandler, new FTPServer(), server_socket);
                     if (0 == clientHandler) {
@@ -48,7 +47,7 @@ namespace mde {
                     }
                 }
                 catch (SocketException& e) {
-                    std::cout << "Exception occurred : " << e.description() << std::endl;
+                    mde::log << "Exception occurred : " << e.description() << mde::endl;
                     control_socket.close();
                     continue;
                 }
@@ -56,16 +55,16 @@ namespace mde {
             // check for any exceptions
         }
         catch (SocketException& e) {
-            std::cout << "Exception occurred : " << e.description() << std::endl;
+            mde::log << "Exception occurred : " << e.description() << mde::endl;
             return;
         }
-        std::cout << "blabla" << std::endl;
+        mde::log << "blabla" << mde::endl;
     }
 
     void FTPServer::clientHandler(ftp_utilities::ServerSocket* aServerSocket) {
         communicate(aServerSocket);
         //aServerSocket->close();
-        std::cout << "client handler stopp" << std::endl;
+        mde::log << "client handler stopp" << mde::endl;
     }
 
     // Send Response to Client and Get command from client.
@@ -81,7 +80,7 @@ namespace mde {
             *server_socket << responseMsg;
         }
         catch (SocketException& e) {
-            std::cout << "Exception occurred : " << e.description() << std::endl;
+            mde::log << "Exception occurred : " << e.description() << mde::endl;
             return;
         }
         // always ready to listen.
@@ -93,20 +92,20 @@ namespace mde {
                 *server_socket >> data;
                 // TODO implement all ftp commands (RMD, DELE,...)
                 if (parseCommand(data, cmd, args)) {
-                    std::cout << "Received Command : " << cmd << std::endl;
+                    mde::log << "Received Command : " << cmd << mde::endl;
                     // get user command from client side.
                     // TODO change elseif to switch
                     if (cmd == "USER" && args.length() != 0) {
                         login_list = formLoginInfoList();
                         user = args;
-                        std::cout << user << std::endl;
+                        mde::log << user << mde::endl;
                         responseMsg = FTPResponse("331", "Please specify the password.").formResponse();
                         *server_socket << responseMsg;
                     }
                         // get pass command from client side.
                     else if (cmd == "PASS" && args.length() != 0) {
                         pass = args;
-                        std::cout << pass << std::endl;
+                        mde::log << pass << mde::endl;
                         if (login_list.find(user) != login_list.end()) {
                             if (login_list[user].first == pass) {
                                 cd(login_list[user].second);
@@ -180,7 +179,7 @@ namespace mde {
                                     responseMsg = FTPResponse("226", "Directory send OK.").formResponse();
                                 }
                                 catch (SocketException& e) {
-                                    std::cout << "Exception occurred : " << e.description() << std::endl;
+                                    mde::log << "Exception occurred : " << e.description() << mde::endl;
                                     responseMsg = FTPResponse("450", "Directory NOT send.").formResponse();
                                 }
                             }
@@ -222,7 +221,7 @@ namespace mde {
                                 .formResponse();
                         }
                         catch (SocketException& e) {
-                            std::cout << "Exception occurred : " << e.description() << std::endl;
+                            mde::log << "Exception occurred : " << e.description() << mde::endl;
                             responseMsg = FTPResponse("425", "Cannot open data connection").formResponse();
                         }
 
@@ -251,7 +250,7 @@ namespace mde {
                                             }
                                         }
                                         catch (SocketException& e) {
-                                            std::cout << "Exception occurred : " << e.description() << std::endl;
+                                            mde::log << "Exception occurred : " << e.description() << mde::endl;
                                             break;
                                         }
                                         out << buff;
@@ -334,7 +333,7 @@ namespace mde {
                             return;
                         }
                         catch (SocketException& e) {
-                            std::cout << "Exception occurred : " << e.description() << std::endl;
+                            mde::log << "Exception occurred : " << e.description() << mde::endl;
                             responseMsg = FTPResponse("500", "Couldn't close the connection.").formResponse();
                             *server_socket << responseMsg;
                         }
@@ -355,11 +354,11 @@ namespace mde {
                 }
             }
             catch (SocketException& e) {
-                std::cout << "Exception occurred : " << e.description() << std::endl;
+                mde::log << "Exception occurred : " << e.description() << mde::endl;
                 return;
             }
         /*    catch (...) {
-                std::cout << "Unknown exception in communicate" << std::endl;
+                mde::log << "Unknown exception in communicate" << mde::endl;
             }*/
         }
     }
@@ -370,7 +369,7 @@ namespace mde {
         std::string response = exec_cmd("pwd", request);
 
         if (print) {
-            std::cout << response;
+            mde::log << response;
         }
 
         return response.substr(1, response.length() - 3);
@@ -382,7 +381,7 @@ namespace mde {
         std::string response = exec_cmd("cd", args, return_code);
 
         if (print) {
-            std::cout << response;
+            mde::log << response;
         }
 
         return return_code;
@@ -395,7 +394,7 @@ namespace mde {
         response = exec_cmd("ls", request, return_code);
 
         if (print) {
-            std::cout << response;
+            mde::log << response;
         }
 
         return return_code;
@@ -407,7 +406,7 @@ namespace mde {
         response = exec_cmd("mkdir", args, return_code);
 
         if (print) {
-            std::cout << "Here" << response;
+            mde::log << "Here" << response;
         }
 
         return return_code;
@@ -419,7 +418,7 @@ namespace mde {
         std::string response = exec_cmd("uname", request);
 
         if (print) {
-            std::cout << response;
+            mde::log << response;
         }
 
         return response;
@@ -431,7 +430,7 @@ namespace mde {
         std::string response = exec_cmd("chroot", args, return_code);
 
         if (print) {
-            std::cout << response;
+            mde::log << response;
         }
 
         return return_code;

@@ -15,7 +15,6 @@
 
 namespace mde { namespace ftp_utilities {
 
-    // TODO Implement different Sockets for Win/Linux
     class SocketLinux : public ISocket {
     private:
         int _sockfd;

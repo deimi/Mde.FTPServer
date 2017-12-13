@@ -5,9 +5,7 @@
 #include <vector>
 #include <sstream>
 #include <cstdlib>
-#include <iostream>
 
-using namespace std;
 
 namespace mde { namespace ftp_utilities {
 
