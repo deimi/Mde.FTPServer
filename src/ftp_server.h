@@ -13,8 +13,6 @@
 #include <sstream>
 #include <fstream>
 #include <fcntl.h>
-// TODO Seperate Windows/Linux includes
-
 
 #include "utilities/server_socket.h"
 #include "utilities/socket_exception.h"

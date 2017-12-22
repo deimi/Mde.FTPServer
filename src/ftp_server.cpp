@@ -36,10 +36,8 @@ namespace mde {
             // TODO Manage multiple client connections, via max setting/single only/etc
             while (1) {
                 try {
-                    mde::log << "testtest" << mde::endl;
                     ServerSocket* server_socket = new ServerSocket();
                     control_socket.accept(*server_socket);
-                    mde::log << "testtest2" << mde::endl;
 
                     std::thread* clientHandler = new std::thread(&FTPServer::clientHandler, new FTPServer(), server_socket);
                     if (0 == clientHandler) {
@@ -58,7 +56,6 @@ namespace mde {
             mde::log << "Exception occurred : " << e.description() << mde::endl;
             return;
         }
-        mde::log << "blabla" << mde::endl;
     }
 
     void FTPServer::clientHandler(ftp_utilities::ServerSocket* aServerSocket) {
@@ -94,6 +91,8 @@ namespace mde {
                 if (parseCommand(data, cmd, args)) {
                     mde::log << "Received Command : " << cmd << mde::endl;
                     // get user command from client side.
+
+
                     // TODO change elseif to switch
                     if (cmd == "USER" && args.length() != 0) {
                         login_list = formLoginInfoList();
