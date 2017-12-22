@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Mde.FTPServer">
+      <UniqueIdentifier>{2dc6626f-bbef-4207-a81c-15675e8c4f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mde.FTPServer\utilities">
+      <UniqueIdentifier>{f713bf6c-c028-4984-96c3-0669b8fb8689}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ConcreteFTPServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ftpserver_example.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ftp_server.cpp">
+      <Filter>Mde.FTPServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utilities\ftp_request.cpp">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utilities\ftp_response.cpp">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utilities\server_socket.cpp">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utilities\socket_exception.cpp">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utilities\utility.cpp">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utilities\socket_win.cpp">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utilities\socket_linux.cpp">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utilities\logging.cpp">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ConcreteFtpServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ftp_server.h">
+      <Filter>Mde.FTPServer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\ftp_request.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\ftp_response.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\i_socket.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\server_socket.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\socket_exception.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\utility.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\socket_win.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\socket_linux.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\operating_system.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\logging.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
