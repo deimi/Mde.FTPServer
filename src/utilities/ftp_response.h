@@ -19,11 +19,11 @@ namespace mde { namespace ftp_utilities {
         FTPResponse(std::string, std::string);
         ~FTPResponse();
         void setResponse(std::string);
-        int returnCode();
+        int32_t returnCode();
         std::string parseResponse();
-        std::string parseResponse(int&);
+        std::string parseResponse(int32_t&);
         std::string formResponse();
-        int getPort();
+        int32_t getPort();
     };
 
 } // namespace ftp_utilities

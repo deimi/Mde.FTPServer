@@ -10,7 +10,7 @@
 namespace mde { namespace ftp_utilities {
 
     // This function checks whether string contain valid host address or not. 
-    int hostlookup(std::string h) {
+    int32_t hostlookup(std::string h) {
         const char* host = h.c_str();
         struct sockaddr_in inaddr;
         struct hostent* hostp;
@@ -21,7 +21,7 @@ namespace mde { namespace ftp_utilities {
 
         memset((char *)&inaddr, 0, sizeof inaddr);
         // check for host address.
-        if ((int)(inaddr.sin_addr.s_addr = inet_addr(host)) == -1) {
+        if ((int32_t)(inaddr.sin_addr.s_addr = inet_addr(host)) == -1) {
             if ((hostp = gethostbyname(host)) == NULL) {
                 throw SocketException(strerror(errno));
             }
@@ -58,8 +58,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     //	This Function executes system commands(pwd,cd,mkdir,popen) if they are valid otherwise return error.
-    std::string exec_cmd(std::string cmd_type, std::string cmd, int& code) {
-        // TODO Implement commands for windwos
+    std::string exec_cmd(std::string cmd_type, std::string cmd, int32_t& code) {
         FILE* in;
         char buff[2048];
         std::stringstream data;

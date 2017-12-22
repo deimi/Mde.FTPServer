@@ -29,7 +29,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Constructor function to create, bind and listen a socket on a particular PORT
-    ServerSocket::ServerSocket(int port) : ServerSocket() {
+    ServerSocket::ServerSocket(int32_t port) : ServerSocket() {
         if (false == socket_->bind(port)) {
             throw SocketException(strerror(errno));
         }
@@ -60,12 +60,12 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Fuction to return the FD of the socket.
-    int ServerSocket::fd() {
+    int32_t ServerSocket::fd() {
         return socket_->fd();
     }
 
     //Fuction to return the port of the socket.
-    int ServerSocket::port() {
+    int32_t ServerSocket::port() {
         return socket_->port();
     }
 

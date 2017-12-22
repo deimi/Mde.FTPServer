@@ -17,7 +17,7 @@ namespace mde { namespace ftp_utilities {
 
     class SocketLinux : public ISocket {
     private:
-        int _sockfd;
+        int32_t _sockfd;
         struct sockaddr_in _addr;
         bool is_valid();
 
@@ -27,16 +27,16 @@ namespace mde { namespace ftp_utilities {
         SocketLinux();
         ~SocketLinux();
         bool create();
-        bool bind(int);
-        bool connect(int, int);
+        bool bind(int32_t);
+        bool connect(int32_t, int32_t);
         bool listen();
         bool accept(ISocket&);
-        int send(std::string);
-        int recv(std::string&);
+        int32_t send(std::string);
+        int32_t recv(std::string&);
         bool close();
-        int fd();
-        void fd(int);
-        int port();
+        int32_t fd();
+        void fd(int32_t);
+        int32_t port();
         std::string host();
         uint32_t getMaxBufferSize();
     };

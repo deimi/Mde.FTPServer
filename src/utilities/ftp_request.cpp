@@ -29,7 +29,7 @@ namespace mde { namespace ftp_utilities {
     FTPRequest::FTPRequest(std::string cmd, vector<std::string> flags) {
         _cmd = cmd;
         _arg = "";
-        for (int i = 0; i < flags.size(); i++) {
+        for (int32_t i = 0; i < flags.size(); i++) {
             _arg += " " + flags[i];
         }
     }
@@ -38,10 +38,10 @@ namespace mde { namespace ftp_utilities {
     FTPRequest::FTPRequest(std::string cmd, vector<std::string> flags, vector<std::string> args) {
         _cmd = cmd;
         _arg = "";
-        for (int i = 0; i < flags.size(); i++) {
+        for (int32_t i = 0; i < flags.size(); i++) {
             _arg += " " + flags[i];
         }
-        for (int i = 0; i < args.size(); i++) {
+        for (int32_t i = 0; i < args.size(); i++) {
             _arg += " " + args[i];
         }
     }
@@ -62,7 +62,7 @@ namespace mde { namespace ftp_utilities {
     void FTPRequest::setRequest(std::string cmd, vector<std::string> flags) {
         _cmd = cmd;
         _arg = "";
-        for (int i = 0; i < flags.size(); i++) {
+        for (int32_t i = 0; i < flags.size(); i++) {
             _arg += " " + flags[i];
         }
     }
@@ -71,10 +71,10 @@ namespace mde { namespace ftp_utilities {
     void FTPRequest::setRequest(std::string cmd, vector<std::string> flags, vector<std::string> args) {
         _cmd = cmd;
         _arg = "";
-        for (int i = 0; i < flags.size(); i++) {
+        for (int32_t i = 0; i < flags.size(); i++) {
             _arg += " " + flags[i];
         }
-        for (int i = 0; i < args.size(); i++) {
+        for (int32_t i = 0; i < args.size(); i++) {
             _arg += " " + args[i];
         }
     }
@@ -86,12 +86,12 @@ namespace mde { namespace ftp_utilities {
         }
         else if (_cmd == "PORT") {
             std::stringstream arg;
-            for (int i = 0; i < _arg.length(); i++) {
+            for (int32_t i = 0; i < _arg.length(); i++) {
                 if (_arg[i] == '.')
                     arg << ',';
                 if (_arg[i] == ':') {
                     arg << ',';
-                    int port = atoi(_arg.substr(i + 1).c_str());
+                    int32_t port = atoi(_arg.substr(i + 1).c_str());
                     arg << port / 256 << "," << port % 256;
                     break;
                 }

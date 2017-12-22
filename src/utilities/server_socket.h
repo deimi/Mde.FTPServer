@@ -13,14 +13,14 @@ namespace mde { namespace ftp_utilities {
     class ServerSocket {
     public:
         ServerSocket();
-        ServerSocket(int port);
+        ServerSocket(int32_t port);
         ~ServerSocket();
         ServerSocket& operator <<(std::string&);
         ServerSocket& operator >>(std::string&);
         void accept(ServerSocket&);
         void close();
-        int fd();
-        int port();
+        int32_t fd();
+        int32_t port();
         std::string host();
         uint32_t getMaxBufferSize();
 

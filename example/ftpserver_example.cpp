@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-int main()
+int32_t main()
 {
 
 	std::cout << "FTP Server running. Press any key for stopping..." << std::endl;;

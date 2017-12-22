@@ -9,7 +9,7 @@ using namespace ::mde::ftp_utilities;
 namespace mde {
 
     // Constructor function to create ftp server socket with port number given as argument.
-    FTPServer::FTPServer(int port_number) {
+    FTPServer::FTPServer(int32_t port_number) {
         // TODO Rename all comments and string to new naming
         mde::log << "FTP-Server main instance started\n";
         port = port_number;
@@ -166,7 +166,7 @@ namespace mde {
                                 *server_socket << responseMsg;
                                 // send list of directory to client.
                                 try {
-                                    int pos = 0, len = response.length();
+                                    int32_t pos = 0, len = response.length();
                                     std::string buffer;
                                     ServerSocket temp_socket;
                                     (*data_socket).accept(temp_socket);
@@ -288,7 +288,7 @@ namespace mde {
                                 std::ifstream in(args.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
                                 // cheeck for retrieve a file from server.
                                 if (in) {
-                                    long length = in.tellg();
+                                    auto length = in.tellg();
                                     in.seekg(0, in.beg);
                                     res_stream << "Opening BINARY mode data connection for " << args[0] << " (" <<
                                         length << " bytes).";
@@ -297,7 +297,7 @@ namespace mde {
                                     (*data_socket).accept(temp_socket);
                                     while (length > 0) {
                                         // TODO Replace MAXRECV from under layer with function call
-                                        int read_sz = temp_socket.getMaxBufferSize() < length ? temp_socket.getMaxBufferSize() : length;
+                                        int32_t read_sz = temp_socket.getMaxBufferSize() < length ? temp_socket.getMaxBufferSize() : length;
                                         char buf[2048 + 1];
                                         in.read(buf, read_sz);
                                         data.assign(buf, read_sz);
@@ -376,8 +376,8 @@ namespace mde {
     }
 
     // Change directory on server side and return status code.
-    int FTPServer::cd(std::string args, bool print) {
-        int return_code;
+    int32_t FTPServer::cd(std::string args, bool print) {
+        int32_t return_code;
         std::string response = exec_cmd("cd", args, return_code);
 
         if (print) {
@@ -388,8 +388,8 @@ namespace mde {
     }
 
     // return list of files and folders of current working directory from server side.
-    int FTPServer::ls(std::string args, std::string& response, bool print) {
-        int return_code;
+    int32_t FTPServer::ls(std::string args, std::string& response, bool print) {
+        int32_t return_code;
         std::string request = FTPRequest("ls -l", args).getRequest("\n");
         response = exec_cmd("ls", request, return_code);
 
@@ -401,8 +401,8 @@ namespace mde {
     }
 
     // return status code corresponding to make directory from server side.
-    int FTPServer::mkd(std::string args, std::string& response, bool print) {
-        int return_code;
+    int32_t FTPServer::mkd(std::string args, std::string& response, bool print) {
+        int32_t return_code;
         response = exec_cmd("mkdir", args, return_code);
 
         if (print) {
@@ -425,8 +425,8 @@ namespace mde {
     }
 
     // Set  root directory on user and return status code.
-    int FTPServer::setRootDir(std::string args, bool print) {
-        int return_code;
+    int32_t FTPServer::setRootDir(std::string args, bool print) {
+        int32_t return_code;
         std::string response = exec_cmd("chroot", args, return_code);
 
         if (print) {

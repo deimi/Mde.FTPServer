@@ -28,23 +28,22 @@ namespace mde {
     public:
         // TODO Replace LoginInfo with Container class and provide it at Constructor
         typedef std::map<std::string, pair<std::string, std::string> > LoginInfo;
-        //TODO Use std types (int32_t,...)
-        FTPServer(int);
+        FTPServer(int32_t);
         ~FTPServer();
         void start();
 
     private:
-        int port;
+        int32_t port;
 
         FTPServer();
-        int ls(std::string, std::string&, bool print = false);
+        int32_t ls(std::string, std::string&, bool print = false);
         std::string syst(bool print = false);
         std::string pwd(bool print = false);
-        int cd(std::string, bool print = false);
-        int mkd(std::string, std::string&, bool print = false);
-        int pasv();
+        int32_t cd(std::string, bool print = false);
+        int32_t mkd(std::string, std::string&, bool print = false);
+        int32_t pasv();
         bool quit();
-        int setRootDir(std::string, bool print = false);
+        int32_t setRootDir(std::string, bool print = false);
         LoginInfo formLoginInfoList();
         void clientHandler(ftp_utilities::ServerSocket*);
         void communicate(ftp_utilities::ServerSocket*);

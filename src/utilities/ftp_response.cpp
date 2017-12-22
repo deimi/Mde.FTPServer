@@ -22,6 +22,7 @@ namespace mde { namespace ftp_utilities {
 
     // Default constructor function of ftp response class with string response as function argument.
     FTPResponse::FTPResponse(std::string code, std::string msg) {
+        // TODO Replace code with consts
         status_code = code;
         _msg = msg;
     }
@@ -44,7 +45,7 @@ namespace mde { namespace ftp_utilities {
     }
 
     // parse response function of ftp response class with code as function argument.
-    std::string FTPResponse::parseResponse(int& code) {
+    std::string FTPResponse::parseResponse(int32_t& code) {
         std::string response = parseResponse();
         code = atoi(status_code.c_str());
         return response;
@@ -56,18 +57,18 @@ namespace mde { namespace ftp_utilities {
     }
 
     // return code function of ftp response class.
-    int FTPResponse::returnCode() {
+    int32_t FTPResponse::returnCode() {
         if (status_code == "")
             std::string response = parseResponse();
         return atoi(status_code.c_str());
     }
 
     //	return port number.
-    int FTPResponse::getPort() {
+    int32_t FTPResponse::getPort() {
         std::string::size_type beginPos = _msg.find("(", 0);
         std::string::size_type endPos = _msg.find(")", beginPos);
         std::string port_string = _msg.substr(beginPos + 1, endPos - beginPos - 1);
-        int count = 0;
+        int32_t count = 0;
         std::string host = "";
         beginPos = 0;
         while (count < 4) {
@@ -79,7 +80,7 @@ namespace mde { namespace ftp_utilities {
         host = port_string.substr(0, beginPos);
         port_string = port_string.substr(beginPos + 1);
         beginPos = port_string.find(",");
-        int port = 256 * atoi(port_string.substr(0, beginPos).c_str());
+        int32_t port = 256 * atoi(port_string.substr(0, beginPos).c_str());
         port += atoi(port_string.substr(beginPos + 1).c_str());
         return port;
     }

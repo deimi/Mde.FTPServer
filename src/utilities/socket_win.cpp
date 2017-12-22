@@ -36,30 +36,30 @@ namespace mde { namespace ftp_utilities {
     }
 
     //Return the _sockfd
-    int SocketWin::fd() {
+    int32_t SocketWin::fd() {
         return _sockfd;
     }
 
-    int SocketWin::port() {
+    int32_t SocketWin::port() {
         struct sockaddr_in local_address;
-        int address_length = sizeof(local_address);
+        int32_t address_length = sizeof(local_address);
         getsockname(_sockfd, (struct sockaddr*)&local_address, &address_length);
         return ntohs(local_address.sin_port);
     }
 
     std::string SocketWin::host() {
         struct sockaddr_in local_address;
-        int address_length = sizeof(local_address);
+        int32_t address_length = sizeof(local_address);
         getsockname(_sockfd, (struct sockaddr*)&local_address, &address_length);
         return std::string(inet_ntoa(local_address.sin_addr));
     }
 
     //Allows to set _sockfd
-    void SocketWin::fd(int _fd) {
+    void SocketWin::fd(int32_t _fd) {
         _sockfd = _fd;
     }
 
-    //Wrapper function for socket(int domain, int type, int protocol);
+    //Wrapper function for socket(int32_t domain, int32_t type, int32_t protocol);
     bool SocketWin::create() {
         _sockfd = socket(PF_INET, SOCK_STREAM, 0);
 
@@ -69,15 +69,15 @@ namespace mde { namespace ftp_utilities {
 
         const char yes = 1;
 
-        if (setsockopt(_sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
+        if (setsockopt(_sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int32_t)) == -1) {
             return false;
         }
 
         return true;
     }
 
-    //Wrapper function for bind(int sockfd, struct sockaddr *my_addr, socklen_t addrlen);
-    bool SocketWin::bind(int port) {
+    //Wrapper function for bind(int32_t sockfd, struct sockaddr *my_addr, socklen_t addrlen);
+    bool SocketWin::bind(int32_t port) {
         if (!is_valid()) {
             return false;
         }
@@ -93,8 +93,8 @@ namespace mde { namespace ftp_utilities {
         return true;
     }
 
-    //Wrapper function for connect(int sockfd, const struct sockaddr *serv_addr,socklen_t addrlen);
-    bool SocketWin::connect(int ip, int port) {
+    //Wrapper function for connect(int32_t sockfd, const struct sockaddr *serv_addr,socklen_t addrlen);
+    bool SocketWin::connect(int32_t ip, int32_t port) {
         if (!is_valid()) {
             return false;
         }
@@ -110,7 +110,7 @@ namespace mde { namespace ftp_utilities {
         return true;
     }
 
-    //Wrapper function for listen(int s, int backlog);
+    //Wrapper function for listen(int32_t s, int32_t backlog);
     bool SocketWin::listen() {
         if (!is_valid()) {
             return false;
@@ -123,14 +123,14 @@ namespace mde { namespace ftp_utilities {
         return true;
     }
 
-    //Wrapper function for accept(int s, struct sockaddr *addr, socklen_t *addrlen);
+    //Wrapper function for accept(int32_t s, struct sockaddr *addr, socklen_t *addrlen);
     bool SocketWin::accept(ISocket& child_socket) {
         if (!is_valid()) {
             return false;
         }
 
-        int addr_size = sizeof(_addr);
-        int temp_fd = ::accept(_sockfd, (struct sockaddr *)&_addr, &addr_size);
+        int32_t addr_size = sizeof(_addr);
+        int32_t temp_fd = ::accept(_sockfd, (struct sockaddr *)&_addr, &addr_size);
         if (temp_fd == -1) {
             return false;
         }
@@ -140,8 +140,8 @@ namespace mde { namespace ftp_utilities {
         return true;
     }
 
-    //Wrapper function for send(int s, const void *buf, size_t len, int flags);
-    int SocketWin::send(std::string msg) {
+    //Wrapper function for send(int32_t s, const void *buf, size_t len, int32_t flags);
+    int32_t SocketWin::send(std::string msg) {
         if (!is_valid()) {
             return -1;
         }
@@ -149,14 +149,14 @@ namespace mde { namespace ftp_utilities {
         return ::send(_sockfd, msg.c_str(), msg.length(), 0); //Set flags to MSG_SIGNAL to IGNORE Broken Pipe Errors.
     }
 
-    //Wrapper function for recv(int s, void *buf, size_t len, int flags);
-    int SocketWin::recv(std::string& s) {
+    //Wrapper function for recv(int32_t s, void *buf, size_t len, int32_t flags);
+    int32_t SocketWin::recv(std::string& s) {
         if (!is_valid()) {
             return -1;
         }
 
         char buffer[kMaxBufferSize + 5];
-        int status =::recv(_sockfd, buffer, kMaxBufferSize, 0);
+        int32_t status =::recv(_sockfd, buffer, kMaxBufferSize, 0);
 
         if (status > 0) {
             s.assign(buffer, status);
@@ -165,7 +165,7 @@ namespace mde { namespace ftp_utilities {
         return status;
     }
 
-    //Wrapper function for close(int s);
+    //Wrapper function for close(int32_t s);
     bool SocketWin::close() {
         if (!is_valid()) {
             return true;
