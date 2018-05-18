@@ -26,6 +26,7 @@ namespace mde {
     }
 
     // Start ftp server on default port and listen to requests form clients.
+    // TODO Start a new thread with constructor instead of start method
     void FTPServer::start() {
         mde::log << "Starting server on port :" << port << mde::endl;
 

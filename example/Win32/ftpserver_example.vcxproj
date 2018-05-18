@@ -118,6 +118,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ftp_server.cpp" />
+    <ClCompile Include="..\..\src\utilities\basic_login_info.cpp" />
     <ClCompile Include="..\..\src\utilities\ftp_request.cpp" />
     <ClCompile Include="..\..\src\utilities\ftp_response.cpp" />
     <ClCompile Include="..\..\src\utilities\logging.cpp" />
@@ -131,8 +132,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\ftp_server.h" />
+    <ClInclude Include="..\..\src\utilities\basic_login_info.h" />
     <ClInclude Include="..\..\src\utilities\ftp_request.h" />
     <ClInclude Include="..\..\src\utilities\ftp_response.h" />
+    <ClInclude Include="..\..\src\utilities\i_login_info.h" />
     <ClInclude Include="..\..\src\utilities\i_socket.h" />
     <ClInclude Include="..\..\src\utilities\logging.h" />
     <ClInclude Include="..\..\src\utilities\operating_system.h" />

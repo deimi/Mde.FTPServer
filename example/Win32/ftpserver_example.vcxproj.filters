@@ -54,6 +54,9 @@
     <ClCompile Include="..\..\src\utilities\logging.cpp">
       <Filter>Mde.FTPServer\utilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\utilities\basic_login_info.cpp">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ConcreteFtpServer.h">
@@ -90,6 +93,12 @@
       <Filter>Mde.FTPServer\utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\utilities\logging.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\i_login_info.h">
+      <Filter>Mde.FTPServer\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\utilities\basic_login_info.h">
       <Filter>Mde.FTPServer\utilities</Filter>
     </ClInclude>
   </ItemGroup>
